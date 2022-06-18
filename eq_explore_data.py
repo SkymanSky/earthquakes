@@ -1,5 +1,7 @@
 
 import json
+from plotly.graph_objs import Scattergeo, Layout
+from plotly import offline
 
 filename='data/eq_data_1_day_m1.json'
 
@@ -27,3 +29,10 @@ for eq_dict in all_eq_dicts:
 print(mags[:10])
 print(lons[:5])
 print(lats[:5])
+
+#Depremlerin haritasını çıkar.
+data=[Scattergeo(lon=lons,lat=lats)]
+my_layout=Layout(title='Global Earthquakes')
+
+fig={'data':data,'layout':my_layout}
+offline.plot(fig, filename='global_earthquakes.html')
