@@ -2,6 +2,7 @@
 import json
 from plotly.graph_objs import Scattergeo, Layout
 from plotly import offline
+from datetime import datetime
 
 filename='data/eq_data_30_day_significiant.json'
 
@@ -16,16 +17,20 @@ with open(readable_file,'w') as f:
 all_eq_dicts=all_eq_data['features']
 print(len(all_eq_dicts))
 
-mags,lons,lats,hover_texts=[],[],[],[]
+dates,mags,lons,lats,hover_texts=[],[],[],[],[]
 
 for eq_dict in all_eq_dicts:
     mag=eq_dict['properties']['mag']
     lon = eq_dict['geometry']['coordinates'][0]
     lat=eq_dict['geometry']['coordinates'][1]
     title=eq_dict['properties']['title']
+    time=eq_dict['properties']['time']/1000
+    date=datetime.fromtimestamp(time).date()
+    title+=f" - {date}"
     mags.append(mag)
     lons.append(lon)
     lats.append(lat)
+    dates.append(date)
     hover_texts.append(title)
 
 print(mags[:10])
